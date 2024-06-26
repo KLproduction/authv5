@@ -88,7 +88,7 @@ export const login = async (values: z.infer<typeof LoginSchema>,
     await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || "/"
+      redirectTo: "/"
     });
 
 

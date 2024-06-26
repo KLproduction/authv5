@@ -19,8 +19,8 @@ const navList = [
         path: "/",
     },
     {
-        label: "Setting",
-        path: "/setting",
+        label: "Dashboard",
+        path: "/server",
     },
     {
         label: "ToDo",
