@@ -1,0 +1,4 @@
+for password encrpt
+
+npm i bcrypt
+npm i -D @types/bcrypt --for using typescript
