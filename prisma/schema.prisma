@@ -25,9 +25,20 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  todos         Todo[]
 
  
   @@map("users")
+}
+
+model Todo {
+  id        String   @id @default(cuid())
+  content   String
+  postDate  DateTime @default(now())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("todos")
 }
 
 model Account {
@@ -83,3 +94,4 @@ model TwoFactorConfirmation{
 
   @@unique([userId])
 }
+
