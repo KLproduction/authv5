@@ -47,9 +47,7 @@ export const AddTodoForm = ({ userId }: { userId: string }) => {
                 <form onSubmit={handleSubmit(onSubmit)}className="flex flex-col gap-3 items-center my-10">
                     <div className=" flex items-center gap-2">
                         <input
-                            {...register("content", {
-                                required: "Content is required",
-                            })}
+                            {...register("content")}
                             type="text"
                             placeholder="Say something..."
                             className="px-4 py-2 rounded border"

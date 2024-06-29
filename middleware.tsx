@@ -1,41 +1,22 @@
-import NextAuth from "next-auth"
-import authConfig from "./auth.config"
-import { auth } from "./auth"
-import {
-    DEFAULT_LOGIN_REDIRECT,
-    apiAuthPrefix,
-    authRoutes,
-    publicRoutes
-}from "@/route"
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "./auth";
 
- 
-export const {auth:middleware} = NextAuth(authConfig)
-
-export default auth((req)=>{
-    const {nextUrl} = req
-    const isLoggedIn = !!req.auth
-
-    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-    const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
-    const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-
-
-
-    if(isApiAuthRoute){
+export default async function middleware(request: NextRequest) {
+  const isLoggedIn = async () => {
+    const session = await auth();
+    if (!session) {
+      return false;
     }
+    return true;
+  };
 
-    if(isAuthRoute){
-        if(isLoggedIn){
-            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-        }
-        
-    }
-    if (!isLoggedIn && !isPublicRoute){
-        return Response.redirect(new URL("/auth/login", nextUrl))
-    }
-    
-});
+  if (await isLoggedIn()) {
+    return NextResponse.next();
+  }
+
+  return NextResponse.redirect(new URL("/auth/login", request.url));
+}
 
 export const config = {
-    matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-  };
+  matcher: ["/setting", "/admin", "/server", "/client", "/todo"],
+};

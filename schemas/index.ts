@@ -2,7 +2,7 @@ import { UserRole } from "@prisma/client";
 import * as z from "zod";
 
 export const TodoSchema = z.object({
-    content:z.string().min(1)
+    content:z.string()
 })
 
 export const SettingSchema = z.object({

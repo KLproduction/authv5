@@ -3,12 +3,9 @@ import { RoleGate } from "@/components/auth/rolegate";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { UserRole } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { admin } from "@/actions/admin";
-import { checkServerSession } from "@/actions/check-server-session";
 
 const Adminpage = () => {
   const onApirouteClick = () => {
@@ -19,22 +16,18 @@ const Adminpage = () => {
       } else {
         toast.error("Forbidden API");
       }
-    })}
+    });
+  };
 
-    const onServerAdminActionClick = () => {
-      admin().then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        } else {
-          toast.success(data.success);
-        }
-      });
-    };
-
-
-  const route = useRouter();
-  const user = useCurrentUser();
-  checkServerSession()
+  const onServerAdminActionClick = () => {
+    admin().then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        toast.success(data.success);
+      }
+    });
+  };
 
   return (
     <Card className=" w-[600px]">

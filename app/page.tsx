@@ -9,30 +9,32 @@ import { revalidatePath } from "next/cache";
 
 const font = Poppins({
   subsets: ["latin"],
-  weight: ["600"]
-})
+  weight: ["600"],
+});
 
 export default async function Home() {
+  revalidatePath("/");
 
-    revalidatePath("/")
- 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-zinc-200">
       <div className="flex flex-col gap-5 justify-center items-center">
-        <h1 className={cn(
-          "text-6xl font-semibold text-white drop-shadow-md mb-5",
-          font.className,
-        )}>
-        Login
+        <h1
+          className={cn(
+            "text-6xl font-semibold text-white drop-shadow-md mb-5",
+            font.className
+          )}
+        >
+          Login
         </h1>
         <div>
           <LoginButtonProps mode="modal" asChild>
-            <Button variant={"secondary"} size={"lg"}>Sign In</Button>
+            <Button variant={"secondary"} size={"lg"}>
+              Sign In
+            </Button>
           </LoginButtonProps>
         </div>
-        <GoogleSignIn/>
-        <GitSignIn/>
-
+        <GoogleSignIn />
+        <GitSignIn />
       </div>
     </main>
   );
