@@ -35,26 +35,32 @@ import {
 } from "@/components/ui/select";
 import { UserRole } from "@prisma/client";
 import { ExtenderUser } from "@/next-auth";
+import { currentUser } from "@/lib/auth";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface SettingFormProps {
-  user:ExtenderUser
+  user: ExtenderUser;
 }
 
-const Settingform = ({user}:SettingFormProps) => {
-
-
-  
+const Settingform = ({ user }: SettingFormProps) => {
   const [isPending, startTransition] = useTransition();
   const { update } = useSession();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
+  const route = useRouter();
 
-  const checkSession = async()=>{
-    await checkServerSession()
-  }
-
-  checkSession()
-
+  useEffect(() => {
+    (async () => {
+      if (!user) {
+        route.push("/auth/login");
+      }
+    })();
+  }, []);
 
   const form = useForm<z.infer<typeof SettingSchema>>({
     resolver: zodResolver(SettingSchema),
@@ -64,14 +70,14 @@ const Settingform = ({user}:SettingFormProps) => {
       password: undefined,
       newPassword: undefined,
       role: user?.role || undefined,
-      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined
+      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
 
   const onSubmit = (values: z.infer<typeof SettingSchema>) => {
     startTransition(() => {
-      setError("")
-      setSuccess("")
+      setError("");
+      setSuccess("");
       setting(values)
         .then((data) => {
           if (data.error) {
@@ -87,13 +93,11 @@ const Settingform = ({user}:SettingFormProps) => {
   };
 
   return (
-    <Card className=" w-[600px]">
-      <CardHeader>
-        <p className=" text-2xl font-semibold text-center">Setting</p>
-      </CardHeader>
+    <Card className="w-[300px] sm:w-[600px]">
+      <CardHeader>Setting</CardHeader>
       <CardContent>
         <Form {...form}>
-          <form className=" space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
               <FormField
                 control={form.control}
@@ -122,7 +126,11 @@ const Settingform = ({user}:SettingFormProps) => {
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={user?.isOAuth ? "only available for credentials login":"Enter your email"}
+                        placeholder={
+                          user?.isOAuth
+                            ? "only available for credentials login"
+                            : "Enter your email"
+                        }
                         disabled={isPending || user?.isOAuth}
                         type="email"
                       />
@@ -131,51 +139,65 @@ const Settingform = ({user}:SettingFormProps) => {
                   </FormItem>
                 )}
               />
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Change Password</AccordionTrigger>
+                  <AccordionContent>
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder={
+                                user?.isOAuth
+                                  ? "only available for credentials login"
+                                  : "Enter your password"
+                              }
+                              type="password"
+                              disabled={isPending || user?.isOAuth}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="newPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>New Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder={
+                                user?.isOAuth
+                                  ? "only available for credentials login"
+                                  : "Enter your new password"
+                              }
+                              type="password"
+                              disabled={isPending || user?.isOAuth}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={user?.isOAuth ? "only available for credentials login":"Enter your password"}
-                        type="password"
-                        disabled={isPending || user?.isOAuth}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="newPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>New Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={user?.isOAuth ? "only available for credentials login":"Enter your new password"}
-                        type="password"
-                        disabled={isPending || user?.isOAuth}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {!user?.isOAuth && 
-              
+              {!user?.isOAuth && (
                 <FormField
                   control={form.control}
                   name="isTwoFactorEnabled"
                   render={({ field }) => (
-                    <FormItem className=" flex items-center justify-between rounded-lg border p-3 shadow-sm">
-                      <div className=" space-y-0.5">
+                    <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
+                      <div className="space-y-0.5">
                         <FormLabel>Two Factor Authentication</FormLabel>
                         <FormDescription>
                           Enable two factor Authenticationfor your account
@@ -183,7 +205,7 @@ const Settingform = ({user}:SettingFormProps) => {
                       </div>
                       <FormControl>
                         <Switch
-                          disabled={isPending || user?.isOAuth }
+                          disabled={isPending || user?.isOAuth}
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -191,7 +213,7 @@ const Settingform = ({user}:SettingFormProps) => {
                     </FormItem>
                   )}
                 />
-              }
+              )}
               <FormField
                 control={form.control}
                 name="role"
@@ -199,13 +221,13 @@ const Settingform = ({user}:SettingFormProps) => {
                   <FormItem>
                     <FormLabel>Role</FormLabel>
                     <Select
-                      disabled={isPending}
+                      disabled={user.role === "USER" ? true : false}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a role" />
+                          <SelectValue />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -220,7 +242,7 @@ const Settingform = ({user}:SettingFormProps) => {
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <div className=" flex justify-center">
+            <div className="flex justify-center">
               <Button type="submit">Save</Button>
             </div>
           </form>

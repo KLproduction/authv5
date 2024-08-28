@@ -2,10 +2,11 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LoginButtonProps } from "@/components/auth/loginBtn";
-import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
-import { GitSignIn } from "@/components/auth/GitSignIn";
+
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
 import { revalidatePath } from "next/cache";
+import GoogleSignInBtn from "@/components/auth/GoogleSignInBtn";
+import GitSignInBtn from "@/components/auth/GitSignInBtn";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -33,8 +34,8 @@ export default async function Home() {
             </Button>
           </LoginButtonProps>
         </div>
-        <GoogleSignIn />
-        <GitSignIn />
+        <GoogleSignInBtn />
+        <GitSignInBtn />
       </div>
     </main>
   );
