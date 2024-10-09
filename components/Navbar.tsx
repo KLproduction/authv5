@@ -14,10 +14,6 @@ const navList = [
     label: "Setting",
     path: "/setting",
   },
-  {
-    label: "ToDo",
-    path: "/todo",
-  },
 ];
 
 const Navbar = async () => {

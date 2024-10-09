@@ -18,5 +18,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/setting", "/admin", "/server", "/client", "/todo"],
+  matcher: ["/setting", "/admin", "/server", "/client"],
 };
