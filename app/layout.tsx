@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
+import { ReactQueryProvider } from "@/react-query/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,13 +23,15 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navbar />
-          <Toaster />
-          {children}
-        </body>
-      </html>
+      <ReactQueryProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <Navbar />
+            <Toaster />
+            {children}
+          </body>
+        </html>
+      </ReactQueryProvider>
     </SessionProvider>
   );
 }
