@@ -10,9 +10,13 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { FaUser } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useGetCurrentUser } from "@/hooks/auth";
+import { useSession } from "next-auth/react";
+import SignOutBtn from "./SignOutBtn";
 
 export const UserBtn = () => {
-  const user = useCurrentUser();
+  const user = useGetCurrentUser();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -23,9 +27,11 @@ export const UserBtn = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=" w-40" align="center">
-        <DropdownMenuItem>
-          <p>1</p>
+      <DropdownMenuContent className=" w-40" align="center" sideOffset={10}>
+        <DropdownMenuItem asChild>
+          <div className="w-full">
+            <SignOutBtn />
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

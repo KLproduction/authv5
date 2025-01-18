@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { LoginForm } from "./LoginForm";
-import { useRef } from "react";
+import { useSignInModel } from "@/hooks/auth";
 
 interface LoginButtonProps {
   children: React.ReactNode;
@@ -16,8 +16,8 @@ export const LoginButtonProps = ({
   mode = "redirect",
   asChild,
 }: LoginButtonProps) => {
-  const ref = useRef();
   const route = useRouter();
+  const { open, close, isOpen } = useSignInModel();
   const onClick = () => {
     route.push("/auth/login");
   };

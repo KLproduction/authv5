@@ -25,6 +25,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DialogTrigger } from "../ui/dialog";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -38,6 +39,7 @@ export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const route = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -61,6 +63,7 @@ export const LoginForm = () => {
           if (data?.success) {
             form.reset();
             setSuccess(data.success);
+            queryClient.invalidateQueries({ queryKey: ["current"] });
           }
           if (data?.twoFactor) {
             setShowTwoFactor(true);
@@ -159,7 +162,7 @@ export const LoginForm = () => {
             disabled={isPending}
             onClick={() => {
               {
-                route.refresh(), console.log("REFRESH");
+                route.refresh();
               }
             }}
           >

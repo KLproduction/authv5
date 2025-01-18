@@ -6,6 +6,8 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
 import { ReactQueryProvider } from "@/react-query/provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { SignInModel } from "@/components/auth/signInModel";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,15 +25,18 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <ReactQueryProvider>
-        <html lang="en">
-          <body className={inter.className}>
-            <Navbar />
-            <Toaster />
-            {children}
-          </body>
-        </html>
-      </ReactQueryProvider>
+      <html lang="en">
+        <NuqsAdapter>
+          <ReactQueryProvider>
+            <body className={inter.className}>
+              <Navbar />
+              <SignInModel />
+              <Toaster />
+              {children}
+            </body>
+          </ReactQueryProvider>
+        </NuqsAdapter>
+      </html>
     </SessionProvider>
   );
 }

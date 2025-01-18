@@ -28,7 +28,7 @@ export const CardWapper = ({
       <CardContent>{children}</CardContent>
       {showSocial && (
         <CardFooter>
-          <Social></Social>
+          <Social />
         </CardFooter>
       )}
       <div className="flex items-center justify-center">

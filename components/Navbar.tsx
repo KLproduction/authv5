@@ -4,6 +4,9 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { LoginButtonProps } from "./auth/loginBtn";
 import SignOutBtn from "./auth/SignOutBtn";
+import { UserBtn } from "./auth/UserBtn";
+import { useSession } from "next-auth/react";
+import { useGetCurrentUser } from "@/hooks/auth";
 
 const navList = [
   {
@@ -41,8 +44,8 @@ const Navbar = async () => {
           </div>
         ) : (
           <div className="flex gap-3 items-center justify-center p-3">
-            <p>Hello {session?.user?.name}</p>
-            <SignOutBtn />
+            <p>Hello {session?.user.name}</p>
+            <UserBtn />
           </div>
         )}
       </ul>
