@@ -8,7 +8,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { LoginForm } from "./LoginForm";
-import { useSignInModel } from "@/hooks/auth";
 import { useMedia } from "react-use";
 import {
   Drawer,
@@ -16,6 +15,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useSignInModel } from "@/hooks/models";
 
 interface LoginButtonProps {
   children: React.ReactNode;

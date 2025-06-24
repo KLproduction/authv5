@@ -1,12 +1,7 @@
 import { useMedia } from "react-use";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "../ui/dialog";
-
+import { Dialog, DialogContent } from "../ui/dialog";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 type Props = {
   children: React.ReactNode;
   isOpen: boolean;
@@ -15,14 +10,15 @@ type Props = {
 
 const ResponsiveModel = ({ children, isOpen, onOpenChange }: Props) => {
   const isDesktop = useMedia("(min-width: 1024px)", true);
+  // const isDesktop = true;
   if (isDesktop) {
     return (
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogTitle>
-        <DialogContent className="hide-scrollbar max-h-[85vh] w-full overflow-y-auto border-none p-0 sm:max-w-lg">
-          {children}
+        <DialogContent className="hide-scrollbar z-[9999] max-h-[85vh] w-full overflow-y-auto border-none p-0 sm:max-w-lg">
+          <div className="flex items-center justify-center">{children}</div>
         </DialogContent>
       </Dialog>
     );
@@ -34,8 +30,8 @@ const ResponsiveModel = ({ children, isOpen, onOpenChange }: Props) => {
         <DialogDescription></DialogDescription>
       </DrawerTitle>
       <DrawerContent>
-        <div className="hide-scrollbar max-h-[85vh] overflow-y-auto">
-          {children}
+        <div className="hide-scrollbar z-[99999] max-h-[70vh] overflow-y-auto pb-24">
+          <div className="flex justify-center">{children}</div>
         </div>
       </DrawerContent>
     </Drawer>

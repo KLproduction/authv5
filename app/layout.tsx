@@ -28,18 +28,18 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <NuqsAdapter>
-          <ReactQueryProvider>
-            <SignInModel />
-            <SignUpModel />
-            <body className={inter.className}>
+        <ReactQueryProvider>
+          <body className={inter.className}>
+            <NuqsAdapter>
               <Navbar />
               <SignInModel />
+              <SignUpModel />
+
               <Toaster />
               {children}
-            </body>
-          </ReactQueryProvider>
-        </NuqsAdapter>
+            </NuqsAdapter>
+          </body>
+        </ReactQueryProvider>
       </html>
     </SessionProvider>
   );

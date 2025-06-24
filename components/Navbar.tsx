@@ -7,6 +7,8 @@ import SignOutBtn from "./auth/SignOutBtn";
 import { UserBtn } from "./auth/UserBtn";
 import { useSession } from "next-auth/react";
 import { useGetCurrentUser } from "@/hooks/auth";
+import GlobalSignInBtn from "./global/global-sign-in-btn";
+import GlobalSignUpBtn from "./global/global-sign-up-btn";
 
 const navList = [
   {
@@ -32,15 +34,17 @@ const Navbar = async () => {
         ))}
         {!session ? (
           <div className="flex gap-3 items-center p-3">
-            <LoginButtonProps mode="modal" asChild>
+            {/* <LoginButtonProps mode="modal" asChild>
               <Button variant={"default"} size={"lg"}>
                 Sign In
               </Button>
-            </LoginButtonProps>
+            </LoginButtonProps> */}
+            <GlobalSignInBtn />
             <div className=" border-r border-zinc-800" />
-            <Link href={"/auth/register"} className=" text-gray-500">
+            {/* <Link href={"/auth/register"} className=" text-gray-500">
               Sign up
-            </Link>
+            </Link> */}
+            <GlobalSignUpBtn />
           </div>
         ) : (
           <div className="flex gap-3 items-center justify-center p-3">

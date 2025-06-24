@@ -1,8 +1,9 @@
 "use client";
 
 import ResponsiveModel from "@/components/global/responsive-model";
-import { useSignInModel } from "@/hooks/modals";
+
 import { LoginForm } from "../auth/LoginForm";
+import { useSignInModel } from "@/hooks/models";
 
 type Props = {};
 
