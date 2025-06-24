@@ -1,8 +1,8 @@
 "use client";
 
-import { useSignInModel } from "@/hooks/auth";
-import ResponsiveModel from "../globel/ResponsiveModel";
 import { LoginForm } from "./LoginForm";
+import ResponsiveModel from "../global/responsive-model";
+import { useSignInModel } from "@/hooks/models";
 
 export const SignInModel = () => {
   const { close, isOpen, setIsOpen } = useSignInModel();
