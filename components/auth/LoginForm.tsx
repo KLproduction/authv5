@@ -25,9 +25,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DialogTrigger } from "../ui/dialog";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 
-export const LoginForm = () => {
+type Props = {
+  noBackground?: boolean;
+};
+export const LoginForm = ({ noBackground }: Props) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError =
@@ -39,7 +41,6 @@ export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const route = useRouter();
-  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -63,7 +64,6 @@ export const LoginForm = () => {
           if (data?.success) {
             form.reset();
             setSuccess(data.success);
-            queryClient.invalidateQueries({ queryKey: ["current"] });
           }
           if (data?.twoFactor) {
             setShowTwoFactor(true);
@@ -76,9 +76,10 @@ export const LoginForm = () => {
   return (
     <CardWapper
       headerLabel="Welcome"
-      backBtnLabel="Don't have a account?"
+      backBtnLabel="Don't have a account? Sign up"
       backBtnHref="/auth/register"
       showSocial
+      noShadowOrBorder={noBackground}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -162,7 +163,7 @@ export const LoginForm = () => {
             disabled={isPending}
             onClick={() => {
               {
-                route.refresh();
+                route.refresh(), console.log("REFRESH");
               }
             }}
           >

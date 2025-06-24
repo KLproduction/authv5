@@ -23,6 +23,8 @@ model User {
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  isGuest               Boolean                @default(false)
+  guestExpiresAt        DateTime?
 
   @@map("users")
 }

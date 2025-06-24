@@ -7,7 +7,9 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
 import { ReactQueryProvider } from "@/react-query/provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { SignInModel } from "@/components/auth/signInModel";
+
+import SignUpModel from "@/components/modals/sign-up-model";
+import SignInModel from "@/components/modals/sign-in-model";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +30,8 @@ export default async function RootLayout({
       <html lang="en">
         <NuqsAdapter>
           <ReactQueryProvider>
+            <SignInModel />
+            <SignUpModel />
             <body className={inter.className}>
               <Navbar />
               <SignInModel />
